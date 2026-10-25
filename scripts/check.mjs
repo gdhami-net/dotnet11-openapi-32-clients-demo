@@ -20,7 +20,9 @@ function check(label, ok, detail = '') {
 const fresh = path.join(outDir, 'fresh');
 await buildDocs(fresh);
 for (const name of fs.readdirSync(docsDir).filter(f => f.endsWith('.json'))) {
-  const same = fs.readFileSync(path.join(fresh, name), 'utf8') === fs.readFileSync(path.join(docsDir, name), 'utf8');
+  // Line endings are ignored: git may check the committed copies out with CRLF.
+  const text = f => fs.readFileSync(f, 'utf8').replace(/\r\n/g, '\n');
+  const same = text(path.join(fresh, name)) === text(path.join(docsDir, name));
   check(`docs/${name} is what the build produces today`, same);
 }
 
