@@ -1,0 +1,14 @@
+{
+  "name": "dotnet11-openapi-32-clients-demo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate": "node scripts/run-generators.mjs",
+    "check": "node scripts/check.mjs"
+  },
+  "devDependencies": {
+    "ng-openapi-gen": "1.1.0",
+    "openapi-typescript": "7.13.0",
+    "orval": "8.45.0"
+  }
+}

@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net11.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <!-- Same assembly name on both sides, so info.title is the same in both documents. -->
+    <AssemblyName>TodoApi</AssemblyName>
+    <RootNamespace>TodoApi</RootNamespace>
+    <OpenApiDocumentsDirectory>$(MSBuildProjectDirectory)/obj/openapi</OpenApiDocumentsDirectory>
+    <!-- dotnet build -p:PinOpenApi31=true compiles the one-line pin in Program.cs. -->
+    <DefineConstants Condition="'$(PinOpenApi31)' == 'true'">$(DefineConstants);PIN_OPENAPI_31</DefineConstants>
+  </PropertyGroup>
+
+  <!-- dotnet build -p:PinBuildTime31=true also pins the document written at build time.
+       The pin in Program.cs doesn't reach it: the build-time tool has its own default. -->
+  <PropertyGroup Condition="'$(PinBuildTime31)' == 'true'">
+    <OpenApiGenerateDocumentsOptions>--openapi-version OpenApi3_1</OpenApiGenerateDocumentsOptions>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="../Shared/*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="11.0.0-rc.2.26504.105" />
+    <PackageReference Include="Microsoft.Extensions.ApiDescription.Server" Version="11.0.0-rc.2.26504.105">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>
